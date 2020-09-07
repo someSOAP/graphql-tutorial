@@ -7,9 +7,13 @@ const schema = require('../schema/schema');
 const app = express();
 const PORT = 3005;
 
+const mongoParams = {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+};
 mongoose.connect(
     "mongodb+srv://graphql-tutorial:NB8HInhrtuOnDJ9D@somesoap.9a9oe.mongodb.net/graphql-tutorial?retryWrites=true&w=majority",
-    { useNewUrlParser: true }
+    mongoParams
 );
 
 app.use('/graphql', graphqlHTTP({
