@@ -102,6 +102,7 @@ const Mutation = new GraphQLObjectType({
                     genre: args.genre,
                     rate:  args.rate,
                     watched: args.watched,
+                    directorId: args.directorId,
                 });
                 return movie.save();
             }
