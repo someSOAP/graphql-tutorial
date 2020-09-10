@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost';
 
 export const directorQuery = gql`
-    query directorQuery {
-        directors {
+    query directorQuery($name: String) {
+        directors (name: $name){
             id
             name
             age

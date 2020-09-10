@@ -73,6 +73,7 @@ const Mutation = new GraphQLObjectType({
                 age:  { type: new GraphQLNonNull(GraphQLInt) },
             },
             resolve(parent, args){
+                debugger;
                 return Directors.findByIdAndUpdate(
                     args.id,
                     { $set: { name: args.name, age: args.age } },
@@ -155,8 +156,15 @@ const Query = new GraphQLObjectType({
         },
         movies: {
             type: new GraphQLList(MovieType),
-            resolve(){
-                return Movies.find({})
+            args: { name: { type: GraphQLString }},
+            resolve(parent, args){
+                if(args.name){
+                    return Movies.find({
+                        name: { $regex: args.name, $options: "i"}
+                    })
+                } else {
+                    return Movies.find({})
+                }
             }
         },
         director: {
@@ -168,8 +176,15 @@ const Query = new GraphQLObjectType({
         },
         directors: {
             type: new GraphQLList(DirectorType),
-            resolve(){
-                return Directors.find({})
+            args: { name: { type: GraphQLString }},
+            resolve(parent, args){
+                if(args.name){
+                    return Directors.find({
+                        name: { $regex: args.name, $options: "i"}
+                    })
+                } else {
+                    return Directors.find({})
+                }
             }
         }
     }
