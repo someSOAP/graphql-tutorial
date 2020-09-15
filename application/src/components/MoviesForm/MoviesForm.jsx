@@ -14,85 +14,95 @@ import SaveIcon from '@material-ui/icons/Save';
 
 import withHocs from './MoviesFormHoc';
 
-class MoviesForm extends React.Component {
-  handleClose = () => {
-    this.props.onClose();
-  };
 
-  handleSave = () => {
-    const { selectedValue, onClose, addMovie, updateMovie } = this.props;
-    const { id, name, genre, rate, directorId, watched } = selectedValue;
-    id ?
-    updateMovie({id, name, genre, rate: Number(rate), directorId, watched: Boolean(watched) }) :
-    addMovie({ name, genre, rate: Number(rate), directorId, watched: Boolean(watched) });
-    onClose();
-  };
+const handleClose = ({ onClose }) => () => {
+  onClose();
+};
 
-  render() {
-    const { data = {}, classes, open, handleChange, handleSelectChange, handleCheckboxChange, selectedValue = {} } = this.props;
-    const { name, genre, rate, directorId, watched } = selectedValue;
-    const { directors = [] } = data;
+const handleSave = ({ selectedValue, onClose, addMovie, updateMovie }) => () => {
+  const { id, name, genre, rate, directorId, watched } = selectedValue;
+  id ?
+      updateMovie({id, name, genre, rate: Number(rate), directorId: directorId || undefined, watched: Boolean(watched) }) :
+      addMovie({ name, genre, rate: Number(rate), directorId: directorId || undefined, watched: Boolean(watched) });
+  onClose();
+};
 
-    return (
-      <Dialog onClose={this.handleClose} open={open} aria-labelledby="simple-dialog-title">
+
+const MoviesForm = (
+    {
+      onClose,
+      addMovie,
+      updateMovie,
+      data = {},
+      classes,
+      open,
+      handleChange,
+      handleSelectChange,
+      handleCheckboxChange,
+      selectedValue = {}
+    }
+) => {
+  const { name, genre, rate, directorId, watched } = selectedValue;
+  const { directors = [] } = data;
+
+  return (
+      <Dialog onClose={handleClose({ onClose })} open={open} aria-labelledby="simple-dialog-title">
         <DialogTitle className={classes.title} id="simple-dialog-title">Movie information</DialogTitle>
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
-            id="outlined-name"
-            label="Name"
-            className={classes.textField}
-            value={name}
-            onChange={handleChange('name')}
-            margin="normal"
-            variant="outlined"
+              id="outlined-name"
+              label="Name"
+              className={classes.textField}
+              value={name}
+              onChange={handleChange('name')}
+              margin="normal"
+              variant="outlined"
           />
           <TextField
-            id="outlined-genre"
-            label="Genre"
-            className={classes.textField}
-            value={genre}
-            onChange={handleChange('genre')}
-            margin="normal"
-            variant="outlined"
+              id="outlined-genre"
+              label="Genre"
+              className={classes.textField}
+              value={genre}
+              onChange={handleChange('genre')}
+              margin="normal"
+              variant="outlined"
           />
           <TextField
-            id="outlined-rate"
-            label="Rate"
-            value={rate}
-            onChange={handleChange('rate')}
-            type="number"
-            className={classes.textField}
-            margin="normal"
-            variant="outlined"
+              id="outlined-rate"
+              label="Rate"
+              value={rate}
+              onChange={handleChange('rate')}
+              type="number"
+              className={classes.textField}
+              margin="normal"
+              variant="outlined"
           />
           <FormControl variant="outlined" className={classes.formControlSelect}>
             <InputLabel
-              ref={ref => { this.InputLabelRef = ref; }}
-              htmlFor="outlined-age-simple"
+                htmlFor="outlined-age-simple"
             >
               Director
             </InputLabel>
             <Select
-              value={directorId}
-              onChange={handleSelectChange}
-              input={<OutlinedInput name="directorId" id="outlined-director" labelWidth={57} />}
+                value={directorId}
+                onChange={handleSelectChange}
+                input={<OutlinedInput name="directorId" id="outlined-director" labelWidth={57} />}
             >
-            {directors.map(director => <MenuItem key={director.id} value={director.id}>{director.name}</MenuItem>)}
+              {directors.map(director => <MenuItem key={director.id} value={director.id}>{director.name}</MenuItem>)}
             </Select>
           </FormControl>
           <div className={classes.wrapper}>
             <FormControlLabel
-              control={<Checkbox checked={watched} onChange={handleCheckboxChange('watched')} value="watched" />}
-              label="Watched movie"
+                control={<Checkbox checked={watched} onChange={handleCheckboxChange('watched')} value="watched" />}
+                label="Watched movie"
             />
-            <Button onClick={this.handleSave} variant="contained" color="primary" className={classes.button}>
+            <Button onClick={handleSave({ selectedValue, onClose, addMovie, updateMovie })} variant="contained" color="primary" className={classes.button}>
               <SaveIcon /> Save
             </Button>
           </div>
         </form>
       </Dialog>
-    );
-  }
+  );
 };
 
-  export default withHocs(MoviesForm);
+export default withHocs(MoviesForm);

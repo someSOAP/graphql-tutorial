@@ -4,29 +4,22 @@ import SearchIcon from '@material-ui/icons/Search';
 
 import withHocs from './DirectorsSearchHoc';
 
-class DirectorsSearch extends React.Component {
-
-  render() {
-    const { classes, handleChange, handleSearch, name } = this.props;
-
-    return (
-      <div className={classes.search}>
+const DirectorsSearch = ({ classes, handleChange, handleSearch, name }) => (
+    <div className={classes.search}>
         <div className={classes.searchIcon}>
-          <SearchIcon />
+            <SearchIcon />
         </div>
         <InputBase
-          onChange={handleChange('name')}
-          onKeyPress={(e) => handleSearch(e)}
-          value={name}
-          placeholder="Search…"
-          classes={{
-            root: classes.inputRoot,
-            input: classes.inputInput,
-          }}
+            onChange={handleChange('name')}
+            onKeyPress={(e) => handleSearch(e)}
+            value={name}
+            placeholder="Search…"
+            classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+            }}
         />
-      </div>
-    );
-  }
-};
+    </div>
+);
 
 export default withHocs(DirectorsSearch);
