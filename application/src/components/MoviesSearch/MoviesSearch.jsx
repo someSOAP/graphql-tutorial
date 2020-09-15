@@ -15,14 +15,14 @@ class MoviesSearch extends React.Component {
           <SearchIcon />
         </div>
         <InputBase
-            onChange={handleChange('name')}
-            onKeyPress={e => handleSearch(e)}
-            value={name}
-            placeholder="Search…"
-            classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-            }}
+          onChange={handleChange('name')}
+          onKeyPress={(e) => handleSearch(e)}
+          value={name}
+          placeholder="Search…"
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
         />
       </div>
     );

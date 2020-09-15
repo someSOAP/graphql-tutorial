@@ -13,11 +13,7 @@ class DirectorsForm extends React.Component {
   handleSave = () => {
     const { selectedValue, onClose, addDirector, updateDirector } = this.props;
     const { id, name, age } = selectedValue;
-    if(id){
-      updateDirector({ id, name, age: Number(age) });
-    } else {
-      addDirector({ name, age: Number(age)});
-    }
+    id ? updateDirector({ id, name, age: Number(age) }) : addDirector({ name, age: Number(age) });
     onClose();
   };
 

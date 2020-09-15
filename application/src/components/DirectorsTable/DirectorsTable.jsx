@@ -13,22 +13,22 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 
 import DirectorsDialog from '../DirectorsDialog/DirectorsDialog';
+import DirectorsSearch from '../DirectorsSearch/DirectorsSearch';
 
 import withHocs from './DirectorsTableHoc';
-import DirectorsSearch from "../DirectorsSearch/DirectorsSearch";
 
 class DirectorsTable extends React.Component {
   state = {
     anchorEl: null,
     openDialog: false,
-    name: "",
+    name: '',
   };
 
-  handleChange = name => event => {
+  handleChange = name => (event) => {
     this.setState({ [name]: event.target.value });
   };
 
-  handleSearch = e => {
+  handleSearch = (e) => {
     const { data } = this.props;
     const { name } = this.state;
 
@@ -36,9 +36,8 @@ class DirectorsTable extends React.Component {
       data.fetchMore({
         variables: { name },
         updateQuery: (previousResult, { fetchMoreResult }) => fetchMoreResult,
-      })
+      });
     }
-
   };
 
   handleDialogOpen = () => { this.setState({ openDialog: true }); };
@@ -66,17 +65,12 @@ class DirectorsTable extends React.Component {
   render() {
     const { anchorEl, openDialog, data: activeElem = {}, name } = this.state;
     const { classes, data = {} } = this.props;
-
     const { directors = [] } = data;
 
     return (
       <>
         <Paper>
-          <DirectorsSearch
-              name = {name}
-              handleChange = {this.handleChange}
-              handleSearch = {this.handleSearch}
-          />
+          <DirectorsSearch name={name} handleChange={this.handleChange} handleSearch={this.handleSearch} />
         </Paper>
         <DirectorsDialog open={openDialog} handleClose={this.handleDialogClose} id={activeElem.id} />
         <Paper className={classes.root}>
@@ -96,7 +90,7 @@ class DirectorsTable extends React.Component {
                     <TableCell component="th" scope="row">{director.name}</TableCell>
                     <TableCell align="right">{director.age}</TableCell>
                     <TableCell>
-                      {director.movies ? director.movies.map((movie, key) => <div key={movie.name}>{`${key+1}. `}{movie.name}</div>) : ""}
+                      {director.movies.map((movie, key) => <div key={movie.name}>{`${key+1}. `}{movie.name}</div>)}
                     </TableCell>
                     <TableCell align="right">
                       <>

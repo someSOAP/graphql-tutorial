@@ -14,27 +14,22 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 
 import MoviesDialog from '../MoviesDialog/MoviesDialog';
+import MoviesSearch from '../MoviesSearch/MoviesSearch';
 
 import withHocs from './MoviesTableHoc';
-import MoviesSearch from "../MoviesSearch/MoviesSearch";
-
-// const movies = [
-//   { id: 1, name: 'Pulp Fiction', genre: 'Crime', rate: 10, director: { name: 'Quentin Tarantino' }, watched: true },
-//   { id: 2, name: 'Lock, Stock and Two Smoking Barrels', genre: 'Crime-comedy', rate: 9, director: { name: 'Guy Ritchie' }, watched: false },
-// ];
 
 class MoviesTable extends React.Component {
   state = {
     anchorEl: null,
     openDialog: false,
-    name: "",
+    name: '',
   };
 
-  handleChange = name => event => {
+  handleChange = name => (event) => {
     this.setState({ [name]: event.target.value });
   };
 
-  handleSearch = e => {
+  handleSearch = (e) => {
     const { data } = this.props;
     const { name } = this.state;
 
@@ -42,9 +37,8 @@ class MoviesTable extends React.Component {
       data.fetchMore({
         variables: { name },
         updateQuery: (previousResult, { fetchMoreResult }) => fetchMoreResult,
-      })
+      });
     }
-
   };
 
   handleDialogOpen = () => { this.setState({ openDialog: true }); };
@@ -79,11 +73,7 @@ class MoviesTable extends React.Component {
     return (
       <>
         <Paper>
-          <MoviesSearch
-              name = {name}
-              handleChange = {this.handleChange}
-              handleSearch = {this.handleSearch}
-          />
+          <MoviesSearch name={name} handleChange={this.handleChange} handleSearch={this.handleSearch} />
         </Paper>
         <MoviesDialog open={openDialog} handleClose={this.handleDialogClose} id={activeElem.id} />
         <Paper className={classes.root}>
@@ -105,7 +95,7 @@ class MoviesTable extends React.Component {
                     <TableCell component="th" scope="row">{movie.name}</TableCell>
                     <TableCell>{movie.genre}</TableCell>
                     <TableCell align="right">{movie.rate}</TableCell>
-                    <TableCell>{movie.director ? movie.director.name : ""}</TableCell>
+                    <TableCell>{movie.director && movie.director.name}</TableCell>
                     <TableCell>
                       <Checkbox checked={movie.watched} disabled />
                     </TableCell>
